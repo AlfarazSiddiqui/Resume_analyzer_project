@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — ResumeForge{% endblock %}
+{% block content %}
+<div class="wrap">
+  <div class="page-head">
+    <h1>Welcome back, {{ user.first_name|default:user.username }}</h1>
+    <p>Here's how your recent resume analyses stack up.</p>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><div class="stat-num">{{ stats.total }}</div><div class="stat-lbl">Resumes analyzed</div></div>
+    <div class="stat"><div class="stat-num">{{ stats.avg_score }}</div><div class="stat-lbl">Average score</div></div>
+    <div class="stat"><div class="stat-num">{{ stats.best_score }}</div><div class="stat-lbl">Best score</div></div>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+    <h3 style="margin:0;">Recent analyses</h3>
+    <a href="{% url 'upload_resume' %}" class="btn btn-gold btn-small">+ New analysis</a>
+  </div>
+
+  {% if resumes %}
+  <table class="list-table">
+    <thead>
+      <tr><th>File</th><th>Uploaded</th><th>Score</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for r in resumes %}
+      <tr>
+        <td class="file-cell">
+          <strong>{{ r.original_filename|default:r.file.name }}</strong>
+          <span>{{ r.job_description|default:"No job description provided"|truncatechars:50 }}</span>
+        </td>
+        <td>{{ r.uploaded_at|date:"M j, Y" }}</td>
+        <td>
+          <span class="score-pill {% if r.overall_score >= 70 %}score-hi{% elif r.overall_score >= 45 %}score-mid{% else %}score-lo{% endif %}">
+            {{ r.overall_score }}%
+          </span>
+        </td>
+        <td><a href="{% url 'result' r.pk %}" class="btn btn-outline btn-small">View</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty-state">
+    <h3>No analyses yet</h3>
+    <p>Upload your first resume to get a detailed score breakdown.</p>
+    <a href="{% url 'upload_resume' %}" class="btn btn-gold" style="margin-top:14px;">Analyze a resume</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

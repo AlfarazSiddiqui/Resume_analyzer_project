@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Analysis result — ResumeForge{% endblock %}
+{% block content %}
+<div class="result-shell">
+
+  <div class="result-top">
+    <div class="result-file">
+      <h1>{{ resume.original_filename|default:resume.file.name }}</h1>
+      <p>Analyzed {{ resume.uploaded_at|date:"M j, Y — g:i A" }} · {{ resume.word_count }} words</p>
+    </div>
+    <div class="result-actions" style="margin:0;">
+      <a href="{% url 'upload_resume' %}" class="btn btn-outline btn-small">New analysis</a>
+      <a href="{% url 'history' %}" class="btn btn-outline btn-small">All history</a>
+    </div>
+  </div>
+
+  <div class="score-hero">
+    <div class="score-ring" style="background:conic-gradient(var(--gold) {{ resume.overall_score }}%, rgba(255,255,255,.18) 0);">
+      <div class="score-ring-num" style="background:radial-gradient(closest-side, var(--teal-deep) 62%, transparent 63%);">
+        {{ resume.overall_score|floatformat:0 }}<small>OUT OF 100</small>
+      </div>
+    </div>
+    <div>
+      <div class="score-hero-label">{{ resume.score_grade }}</div>
+      <h2>
+        {% if resume.job_description %}
+          This resume matches the job description at {{ resume.overall_score|floatformat:0 }}%.
+        {% else %}
+          Overall resume quality score — add a job description next time for a match score.
+        {% endif %}
+      </h2>
+    </div>
+  </div>
+
+  <div class="metric-grid">
+    <div class="metric">
+      <div class="metric-lbl">Keyword match</div>
+      <div class="metric-val">{{ resume.keyword_score|floatformat:0 }}%</div>
+      <div class="metric-bar"><span style="width:{{ resume.keyword_score }}%;"></span></div>
+    </div>
+    <div class="metric">
+      <div class="metric-lbl">Structure</div>
+      <div class="metric-val">{{ resume.section_score|floatformat:0 }}%</div>
+      <div class="metric-bar"><span style="width:{{ resume.section_score }}%;"></span></div>
+    </div>
+    <div class="metric">
+      <div class="metric-lbl">Contact info</div>
+      <div class="metric-val">{{ resume.contact_score|floatformat:0 }}%</div>
+      <div class="metric-bar"><span style="width:{{ resume.contact_score }}%;"></span></div>
+    </div>
+    <div class="metric">
+      <div class="metric-lbl">Readability</div>
+      <div class="metric-val">{{ resume.readability_score|floatformat:0 }}%</div>
+      <div class="metric-bar"><span style="width:{{ resume.readability_score }}%;"></span></div>
+    </div>
+  </div>
+
+  <div class="result-cols">
+    <div class="panel">
+      <h3>Section checklist</h3>
+      {% for section, present in resume.sections.items %}
+      <div class="section-check">
+        <span>{{ section }}</span>
+        {% if present %}<span class="tick-yes">✓ Found</span>{% else %}<span class="tick-no">✗ Missing</span>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="panel">
+      <h3>Skills detected</h3>
+      {% if skills_by_category %}
+        {% for category, skills in skills_by_category.items %}
+        <div class="skills-block">
+          <h5>{{ category }}</h5>
+          <div class="chip-group">
+            {% for skill in skills %}
+              <span class="chip {% if skill in resume.matched_skills %}chip-good{% endif %}">{{ skill }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <p>No recognized skills detected — consider adding a dedicated Skills section.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if resume.job_description %}
+  <div class="result-cols">
+    <div class="panel">
+      <h3>Matched skills <span style="color:var(--text-muted);font-weight:400;">({{ resume.matched_skills|length }})</span></h3>
+      <div class="chip-group">
+        {% for skill in resume.matched_skills %}<span class="chip chip-good">{{ skill }}</span>{% empty %}<p>No overlapping skills found.</p>{% endfor %}
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Missing skills <span style="color:var(--text-muted);font-weight:400;">({{ resume.missing_skills|length }})</span></h3>
+      <div class="chip-group">
+        {% for skill in resume.missing_skills %}<span class="chip chip-missing">{{ skill }}</span>{% empty %}<p>You've covered every detected skill from the posting.</p>{% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="panel" style="margin-top:32px;">
+    <h3>Suggestions to improve your score</h3>
+    <ul class="suggestion-list">
+      {% for tip in resume.suggestions %}<li>{{ tip }}</li>{% endfor %}
+    </ul>
+  </div>
+
+</div>
+{% endblock %}

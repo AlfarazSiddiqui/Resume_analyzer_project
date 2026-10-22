@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}ResumeForge{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+{% block extra_head %}{% endblock %}
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="{% url 'landing' %}" class="brand">
+      <span class="brand-mark">RF</span><span class="brand-name">ResumeForge</span>
+    </a>
+    <nav class="main-nav">
+      {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}" {% if request.resolver_match.url_name == 'dashboard' %}class="active"{% endif %}>Dashboard</a>
+        <a href="{% url 'upload_resume' %}" {% if request.resolver_match.url_name == 'upload_resume' %}class="active"{% endif %}>Analyze</a>
+        <a href="{% url 'history' %}" {% if request.resolver_match.url_name == 'history' %}class="active"{% endif %}>History</a>
+        <form action="{% url 'logout' %}" method="post" class="inline-form">
+          {% csrf_token %}
+          <button type="submit" class="link-btn">Log out</button>
+        </form>
+        <span class="nav-user">{{ user.first_name|default:user.username }}</span>
+      {% else %}
+        <a href="{% url 'login' %}">Log in</a>
+        <a href="{% url 'signup' %}" class="btn btn-small">Sign up free</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>
+
+{% if messages %}
+<div class="wrap">
+  {% for message in messages %}
+    <div class="flash flash-{{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<main>
+{% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>ResumeForge — built with Django &amp; scikit-learn.</span>
+    <span>Analyze smarter, not harder.</span>
+  </div>
+</footer>
+</body>
+</html>

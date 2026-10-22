@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Analyze a resume — ResumeForge{% endblock %}
+{% block content %}
+<div class="upload-shell">
+  <h1 style="font-size:1.8rem;">Analyze a resume</h1>
+  <p style="margin-bottom:28px;">Upload a PDF, DOCX, or TXT file. Add a job description for a tailored match score.</p>
+
+  <div class="upload-card">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="{{ form.file.id_for_label }}">Resume file</label>
+        <div class="file-drop">
+          {{ form.file }}
+          <div class="helptext" style="margin-top:10px;">PDF, DOCX, or TXT — up to 5MB</div>
+        </div>
+        {% for error in form.file.errors %}<div class="field-errors">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.job_description.id_for_label }}">Job description <span style="font-weight:400;color:var(--text-muted);">(optional, recommended)</span></label>
+        {{ form.job_description }}
+      </div>
+      <button type="submit" class="btn btn-gold btn-block">Run analysis</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}ResumeForge — Know your resume's score before a recruiter does{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <div class="eyebrow">Resume intelligence, not guesswork</div>
+      <h1>See your resume the way an <em>ATS</em> sees it.</h1>
+      <p class="hero-sub">Upload a resume and a job description. ResumeForge parses the document, matches it against the role with TF-IDF text similarity, and tells you exactly what's missing — before you hit submit.</p>
+      <div class="hero-cta">
+        <a href="{% url 'signup' %}" class="btn btn-gold">Analyze my resume</a>
+        <a href="{% url 'login' %}" class="btn btn-outline">I already have an account</a>
+      </div>
+      <div class="hero-note">No credit card. Analysis takes under 10 seconds.</div>
+    </div>
+
+    <div class="gauge-card">
+      <h3>Sample analysis</h3>
+      <div class="gauge-sub">senior_ml_engineer_resume.pdf</div>
+      <div class="gauge-wrap">
+        <div class="gauge-score">82<span>/100</span></div>
+        <div class="gauge-rows">
+          <div class="gauge-row"><span class="lbl">Keyword match</span><span class="bar"><span style="width:78%"></span></span></div>
+          <div class="gauge-row"><span class="lbl">Structure</span><span class="bar"><span style="width:100%"></span></span></div>
+          <div class="gauge-row"><span class="lbl">Readability</span><span class="bar"><span style="width:70%"></span></span></div>
+          <div class="gauge-row"><span class="lbl">Contact info</span><span class="bar"><span style="width:100%"></span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Three checks most people skip before applying</h2>
+      <p>Recruiters spend seconds per resume, and applicant tracking systems filter long before a human opens the file. ResumeForge runs the same kind of checks.</p>
+    </div>
+    <div class="feature-list">
+      <div class="feature">
+        <span class="feature-num">Skill extraction</span>
+        <h4>What you actually list</h4>
+        <p>A curated skills database scans your resume for over 140 technical and soft skills across programming, data, cloud, and tooling — grouped by category.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-num">Job matching</span>
+        <h4>How well you fit this role</h4>
+        <p>Paste a job description and get a TF-IDF cosine-similarity match score, plus the exact skills the posting wants that your resume is missing.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-num">Structure &amp; readability</span>
+        <h4>Whether it's built to be scanned</h4>
+        <p>Checks for contact details, standard sections, resume length, and use of strong action verbs — the things ATS parsers and human reviewers both rely on.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-tight" style="background:var(--paper-dim);">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom:36px;">
+      <h2>How it works</h2>
+    </div>
+    <div class="how">
+      <div class="how-step">
+        <span class="step-n">01</span>
+        <h4>Create an account</h4>
+        <p>Sign up in under a minute — just an email and a username.</p>
+      </div>
+      <div class="how-step">
+        <span class="step-n">02</span>
+        <h4>Upload your resume</h4>
+        <p>PDF, DOCX, or TXT. Paste the job description if you have one.</p>
+      </div>
+      <div class="how-step">
+        <span class="step-n">03</span>
+        <h4>Get scored instantly</h4>
+        <p>Our Python ML pipeline parses and scores the document in seconds.</p>
+      </div>
+      <div class="how-step">
+        <span class="step-n">04</span>
+        <h4>Fix what's flagged</h4>
+        <p>Follow specific, ranked suggestions and re-check your score.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap cta-band-inner">
+    <div>
+      <h2>Your next application deserves a second pair of eyes.</h2>
+      <p>Free to use. Every analysis is saved to your dashboard.</p>
+    </div>
+    <a href="{% url 'signup' %}" class="btn btn-gold">Get started</a>
+  </div>
+</section>
+
+{% endblock %}

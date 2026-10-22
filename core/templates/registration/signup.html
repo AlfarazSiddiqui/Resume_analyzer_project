@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Sign up — ResumeForge{% endblock %}
+{% block content %}
+<div class="auth-shell">
+  <div class="auth-card">
+    <h1>Create your account</h1>
+    <p class="auth-sub">Start analyzing resumes in under a minute.</p>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      <div class="form-row-2">
+        <div class="form-group">
+          <label for="{{ form.first_name.id_for_label }}">First name</label>
+          {{ form.first_name }}
+          {% for error in form.first_name.errors %}<div class="field-errors">{{ error }}</div>{% endfor %}
+        </div>
+        <div class="form-group">
+          <label for="{{ form.last_name.id_for_label }}">Last name</label>
+          {{ form.last_name }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="{{ form.username.id_for_label }}">Username</label>
+        {{ form.username }}
+        {% for error in form.username.errors %}<div class="field-errors">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.email.id_for_label }}">Email</label>
+        {{ form.email }}
+        {% for error in form.email.errors %}<div class="field-errors">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.password1.id_for_label }}">Password</label>
+        {{ form.password1 }}
+        <div class="helptext">At least 8 characters. Avoid common passwords.</div>
+        {% for error in form.password1.errors %}<div class="field-errors">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.password2.id_for_label }}">Confirm password</label>
+        {{ form.password2 }}
+        {% for error in form.password2.errors %}<div class="field-errors">{{ error }}</div>{% endfor %}
+      </div>
+      {% if form.non_field_errors %}<div class="field-errors">{{ form.non_field_errors }}</div>{% endif %}
+      <button type="submit" class="btn btn-gold btn-block">Create account</button>
+    </form>
+    <div class="auth-foot">Already have an account? <a href="{% url 'login' %}" style="color:var(--gold-deep);font-weight:600;">Log in</a></div>
+  </div>
+</div>
+{% endblock %}
