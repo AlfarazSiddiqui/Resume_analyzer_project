@@ -62,75 +62,7 @@ resume_analyzer_project/
 └── .vscode/                  # VS Code run/debug config
 ```
 
-## Setup — Run in VS Code
 
-### 1. Open the project
-
-Unzip the project, then in VS Code: **File → Open Folder...** and select the
-`resume_analyzer_project` folder (this is your workspace root).
-
-### 2. Create a virtual environment
-
-Open a terminal in VS Code (`` Ctrl+` `` / `` Cmd+` ``) at the project root:
-
-```bash
-python3 -m venv venv
-
-# Activate it:
-# macOS / Linux:
-source venv/bin/activate
-# Windows (PowerShell):
-venv\Scripts\Activate.ps1
-```
-
-VS Code should prompt you to select this interpreter — click **Yes**, or
-select it manually via **Python: Select Interpreter** (`Ctrl+Shift+P`) →
-choose `./venv/bin/python`.
-
-### 3. Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Set up the database
-
-```bash
-python manage.py makemigrations
-python manage.py migrate
-```
-
-This creates `db.sqlite3` with all tables (users, sessions, resumes, etc.).
-
-### 5. Create an admin account (optional, for `/admin/`)
-
-```bash
-python manage.py createsuperuser
-```
-
-### 6. Run the server
-
-Either:
-
-```bash
-python manage.py runserver
-```
-
-…or in VS Code press **F5** (uses the included `.vscode/launch.json` "Django:
-Run Server" configuration — requires the **Python** + **Python Debugger**
-extensions, listed in `.vscode/extensions.json`).
-
-Then open **http://127.0.0.1:8000/** in your browser.
-
-### 7. Try it out
-
-1. Go to the landing page → **Sign up free**.
-2. Create an account.
-3. Click **Analyze** → upload a resume (PDF/DOCX/TXT) → optionally paste a
-   job description → **Run analysis**.
-4. View your score breakdown, matched/missing skills, and suggestions.
-5. Check **Dashboard** / **History** for past analyses.
-6. Visit `/admin/` and log in with your superuser to browse raw data.
 
 ## Notes
 
